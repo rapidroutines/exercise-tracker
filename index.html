@@ -443,5 +443,34 @@
       saveExercises();
     }
   </script>
+</script>
+  document.addEventListener("contextmenu", (event) => event.preventDefault());
+
+document.addEventListener("keydown", (event) => {
+    const isMac = navigator.platform.toUpperCase().indexOf('MAC') >= 0;
+    const ctrlOrCmd = isMac ? event.metaKey : event.ctrlKey; // Cmd (Mac) or Ctrl (Windows/Linux)
+    const shiftKey = event.shiftKey;
+    const optionKey = event.altKey; // Mac Option key
+
+    if (
+        ctrlOrCmd && (
+            event.key.toLowerCase() === "u" ||  // Disable View Source (Ctrl + U / Cmd + U)
+            event.key.toLowerCase() === "s" ||  // Disable Save Page As (Ctrl + S / Cmd + S)
+            event.key.toLowerCase() === "h" ||  // Disable History (Ctrl + H / Cmd + H)
+            event.key.toLowerCase() === "e"    // Disable Developer Tools (Ctrl + Shift + E / Cmd + Option + E)
+        )
+    ) {
+        event.preventDefault();
+    }
+
+    if (
+        (ctrlOrCmd && shiftKey && (event.key.toLowerCase() === "i" || event.key.toLowerCase() === "j")) || 
+        (isMac && optionKey && (event.key.toLowerCase() === "i" || event.key.toLowerCase() === "j")) || 
+        event.key === "F12" || event.key === "Escape"
+    ) {
+        event.preventDefault();
+    }
+});
+</script>
 </body>
 </html>
