@@ -4,7 +4,180 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Exercise Tracker</title>
-  <!-- CSS will be in a separate file -->
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background: black;
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 600px;
+      padding: 30px;
+      background: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      text-align: center;
+      position: relative;
+      margin: 50px auto;
+      overflow-y: hidden;
+    }
+
+    h2 {
+      font-size: 2rem;
+      color: #333;
+      margin-bottom: 30px;
+      font-weight: bold;
+    }
+
+    .input-group {
+      margin-bottom: 20px;
+      text-align: left;
+    }
+
+    .input-group label {
+      font-size: 1rem;
+      color: #555;
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    .input-group input, .input-group select {
+      width: 100%;
+      padding: 15px;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+      font-size: 1.1rem;
+      background-color: #f9f9f9;
+      box-sizing: border-box;
+    }
+
+    .input-group input:focus, .input-group select:focus {
+      border-color: #1e88e5;
+      outline: none;
+      transition: border-color 0.3s ease;
+    }
+
+    .add-btn {
+      width: 100%;
+      padding: 16px;
+      background-color: #1e88e5;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1.2rem;
+      font-weight: bold;
+      transition: background-color 0.3s ease;
+    }
+
+    .add-btn:hover {
+      background-color: #1565c0;
+    }
+
+    .exercise-list {
+      margin-top: 30px;
+      text-align: left;
+      max-height: 300px;
+      overflow-y: auto;
+    }
+
+    .exercise-item {
+      background: #ffffff;
+      padding: 20px;
+      border-radius: 12px;
+      margin-bottom: 15px;
+      font-size: 1.1rem;
+      border: 1px solid #ddd;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .exercise-item:hover {
+      transform: scale(1.03);
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .exercise-item .title {
+      font-size: 1.3rem;
+      font-weight: bold;
+      color: #333;
+      margin-bottom: 1px;
+    }
+
+    .exercise-item .info {
+      font-size: 1.1rem;
+      color: #555;
+      margin-bottom: 8px;
+    }
+
+    .exercise-item .date {
+      font-size: 1rem;
+      color: #888;
+    }
+
+    .exercise-item .delete-btn {
+      margin-top: 10px;
+      padding: 8px 12px;
+      background-color: #f44336;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background-color 0.3s ease;
+    }
+
+    .exercise-item .delete-btn:hover {
+      background-color: #d32f2f;
+    }
+
+    .time-group {
+      display: none;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .time-group input {
+      flex: 1;
+    }
+
+    .weight-group {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .weight-group input {
+      flex: 1;
+    }
+
+    .weight-group select {
+      width: 80px;
+      padding: 10px;
+      font-size: 1rem;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+      background-color: #f9f9f9;
+    }
+
+    /* Hide reps field and label for timed exercises */
+    .reps-input,
+    .reps-label {
+      display: block;
+    }
+
+    .reps-input.timed,
+    .reps-label.timed {
+      display: none;
+    }
+  </style>
 </head>
 <body>
   <div class="container">
@@ -16,7 +189,93 @@
         <option>Push-ups</option>
         <option>Pull-ups</option>
         <option>Squats</option>
-        <!-- Other exercise options omitted for brevity -->
+        <option>Dips</option>
+        <option>Planks</option>
+        <option>Burpees</option>
+        <option>Jump Rope</option>
+        <option>Deadlifts</option>
+        <option>Bench Press</option>
+        <option>Tuck Planche</option>
+        <option>Straddle Planche</option>
+        <option>Crow Pose</option>
+        <option>Frog Pose</option>
+        <option>Front Lever</option>
+        <option>Muscle Ups</option>
+        <option>Pistol Squats</option>
+        <option>Dragon Squats</option>
+        <option>One Arm Push-ups</option>
+        <option>Clap Push-ups</option>
+        <option>Back Lever</option>
+        <option>Pike Press</option>
+        <option>Dragon Flag</option>
+        <option>Human Flag</option>
+        <option>Side Plank</option>
+        <option>Inverted Rows</option>
+        <option>Ring Dips</option>
+        <option>Leg Raises</option>
+        <option>Barbell Rows</option>
+        <option>Chin-ups</option>
+        <option>Incline Push-ups</option>
+        <option>Hip Thrusts</option>
+        <option>Tricep Dips</option>
+        <option>Wall Sit</option>
+        <option>Superman Hold</option>
+        <option>Jumping Lunges</option>
+        <option>Mountain Climbers</option>
+        <option>Glute Bridges</option>
+        <option>Box Jumps</option>
+        <option>Squat Jumps</option>
+        <option>Archer Pull-ups</option>
+        <option>Archer Push-ups</option>
+        <option>Wide Push-ups</option>
+        <option>Decline Push-ups</option>
+        <option>Handstand Push-ups</option>
+        <option>Pistol Squats (Assisted)</option>
+        <option>Bulgarian Split Squats</option>
+        <option>Wall Walks</option>
+        <option>Planche Push-ups</option>
+        <option>L-sit Hold</option>
+        <option>V-sit Hold</option>
+        <option>Human Flag (Progression)</option>
+        <option>Front Lever Progression</option>
+        <option>Back Lever Progression</option>
+        <option>Muscle-up Progression</option>
+        <option>Shoulder Taps</option>
+        <option>Dip Bar Leg Raises</option>
+        <option>Isometric Pull-up Hold</option>
+        <option>Handstand Holds</option>
+        <option>Crunches</option>
+        <option>Bicep Curls</option>
+        <option>Tricep Dips</option>
+        <option>Tricep Extensions</option>
+        <option>Hammer Curls</option>
+        <option>Barbell Curls</option>
+        <option>Overhead Press</option>
+        <option>Front Raises</option>
+        <option>Lateral Raises</option>
+        <option>Rear Delt Flyes</option>
+        <option>Chest Press</option>
+        <option>Romanian Deadlifts</option>
+        <option>Leg Press</option>
+        <option>Leg Curls</option>
+        <option>Calf Raises</option>
+        <option>Skull Crushers</option>
+        <option>Concentration Curls</option>
+        <option>Preacher Curls</option>
+        <option>Arnold Press</option>
+        <option>Bulgarian Split Squats (with weights)</option>
+        <option>Weighted Step-ups</option>
+        <option>Seated Rows</option>
+        <option>Chest Flyes</option>
+        <option>Deadlifts (Conventional)</option>
+        <option>Squat Press</option>
+        <option>Incline Bench Press</option>
+        <option>Barbell Shrugs</option>
+        <option>Kettlebell Swings</option>
+        <option>Farmers Walk</option>
+        <option>Pull-over</option>
+        <option>Reverse Flyes</option>
+
       </select>
     </div>
 
@@ -25,11 +284,13 @@
       <input type="number" id="sets" placeholder="Sets" class="sets-input">
     </div>
 
+    <!-- Reps input removed for timed exercises -->
     <div class="input-group reps-input">
       <label for="reps" class="reps-label">Reps</label>
       <input type="number" id="reps" placeholder="Reps" class="reps-input">
     </div>
 
+    <!-- Time input for timed exercises -->
     <div class="input-group time-group" id="time-group">
       <label for="time">Time (in seconds)</label>
       <input type="number" id="time" placeholder="Time in seconds">
@@ -57,7 +318,130 @@
       <!-- Exercises will be listed here -->
     </div>
   </div>
-  
-  <!-- JavaScript will be in a separate file -->
+
+  <script>
+    const timedExercises = [
+      "Planks", "Tuck Planche" , "Straddle Planche", "Crow Pose", "Frog pose", "Front Lever" , "Back Lever" , "Dragon Flag" , "Human Flag" , "Side Plank" , "Wall Sit" , "Superman Hold" , "L-sit Hold" , "V-sit Hold" , "Handstand Holds" , ""
+    ];
+
+    let exercisesData = [];
+
+    window.onload = function() {
+      const today = new Date().toISOString().split('T')[0];
+      document.getElementById('date').value = today;
+      loadExercises();
+      toggleInputFields();
+    };
+
+    function isTimedExercise(exercise) {
+      return timedExercises.includes(exercise);
+    }
+
+    function toggleInputFields() {
+      const selectedExercise = document.getElementById('exercise-select').value;
+      const setsInput = document.getElementById('sets');
+      const repsInput = document.getElementById('reps');
+      const timeGroup = document.getElementById('time-group');
+      const repsLabel = document.querySelector('.reps-label');
+
+      if (isTimedExercise(selectedExercise)) {
+        setsInput.disabled = false;
+        repsInput.classList.add('timed');
+        repsLabel.classList.add('timed');
+        timeGroup.style.display = 'flex';
+      } else {
+        setsInput.disabled = false;
+        repsInput.classList.remove('timed');
+        repsLabel.classList.remove('timed');
+        timeGroup.style.display = 'none';
+      }
+    }
+
+    function addExercise() {
+      const exercise = document.getElementById('exercise-select').value;
+      const sets = document.getElementById('sets').value;
+      const reps = document.getElementById('reps').value;
+      const time = document.getElementById('time').value;
+      const weight = document.getElementById('weight').value || 'Bodyweight';
+      const weightUnit = document.getElementById('weight-unit').value;
+      const date = document.getElementById('date').value;
+
+      if (isTimedExercise(exercise) && (!time)) {
+        alert('Please enter time for this exercise');
+        return;
+      }
+
+      if (!isTimedExercise(exercise) && (!sets || !reps)) {
+        alert('Please enter sets and reps');
+        return;
+      }
+
+      const newExercise = { exercise, sets, reps, time, weight, weightUnit, date };
+      exercisesData.push(newExercise);
+      saveExercises();
+      displayExercise(newExercise);
+    }
+
+    function saveExercises() {
+      localStorage.setItem('exercises', JSON.stringify(exercisesData));
+    }
+
+    function loadExercises() {
+      const savedExercises = localStorage.getItem('exercises');
+      exercisesData = savedExercises ? JSON.parse(savedExercises) : [];
+      exercisesData.forEach(displayExercise);
+    }
+
+    function displayExercise(exerciseData) {
+      const exerciseList = document.getElementById('exercise-list');
+      const exerciseItem = document.createElement('div');
+      exerciseItem.classList.add('exercise-item');
+      exerciseItem.id = `exercise-${exerciseData.exercise}-${exerciseData.date}`;
+
+      let titleElement = document.createElement('div');
+      titleElement.classList.add('title');
+      titleElement.textContent = exerciseData.exercise;
+
+      let infoElement = document.createElement('div');
+      infoElement.classList.add('info');
+
+      if (isTimedExercise(exerciseData.exercise)) {
+        infoElement.textContent = `Time: ${exerciseData.time} seconds`;
+      } else {
+        infoElement.textContent = `Sets: ${exerciseData.sets}, Reps: ${exerciseData.reps}`;
+      }
+
+      let weightElement = document.createElement('div');
+      weightElement.classList.add('info');
+      weightElement.textContent = `Weight: ${exerciseData.weight === 'Bodyweight' ? 
+        exerciseData.weight : `${exerciseData.weight} ${exerciseData.weightUnit}`}`;
+
+      let dateElement = document.createElement('div');
+      dateElement.classList.add('date');
+      dateElement.textContent = `Date: ${exerciseData.date}`;
+
+      let deleteButton = document.createElement('button');
+      deleteButton.classList.add('delete-btn');
+      deleteButton.textContent = 'Delete';
+      deleteButton.onclick = function() {
+        deleteExercise(exerciseData);
+        exerciseItem.remove();  // Remove the exercise card from the DOM
+      };
+
+      exerciseItem.appendChild(titleElement);
+      exerciseItem.appendChild(infoElement);
+      exerciseItem.appendChild(weightElement);
+      exerciseItem.appendChild(dateElement);
+      exerciseItem.appendChild(deleteButton);
+
+      exerciseList.appendChild(exerciseItem);
+    }
+
+    function deleteExercise(exerciseData) {
+      exercisesData = exercisesData.filter(item => item.date !== exerciseData.date || item.exercise !== exerciseData.exercise);
+      saveExercises();
+    }
+  </script>
+ 
 </body>
 </html>
