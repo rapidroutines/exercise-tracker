@@ -1,3 +1,9 @@
+const timedExercises = [
+  "Planks", "Tuck Planche" , "Straddle Planche", "Crow Pose", "Frog pose", "Front Lever" , "Back Lever" , "Dragon Flag" , "Human Flag" , "Side Plank" , "Wall Sit" , "Superman Hold" , "L-sit Hold" , "V-sit Hold" , "Handstand Holds" , ""
+];
+
+let exercisesData = [];
+
 window.onload = function() {
   const today = new Date().toISOString().split('T')[0];
   document.getElementById('date').value = today;
@@ -5,19 +11,26 @@ window.onload = function() {
   toggleInputFields();
 };
 
+function isTimedExercise(exercise) {
+  return timedExercises.includes(exercise);
+}
+
 function toggleInputFields() {
   const selectedExercise = document.getElementById('exercise-select').value;
   const setsInput = document.getElementById('sets');
   const repsInput = document.getElementById('reps');
   const timeGroup = document.getElementById('time-group');
+  const repsLabel = document.querySelector('.reps-label');
 
-  if (selectedExercise === "Planks") {
-    setsInput.disabled = true;
-    repsInput.disabled = true;
+  if (isTimedExercise(selectedExercise)) {
+    setsInput.disabled = false;
+    repsInput.classList.add('timed');
+    repsLabel.classList.add('timed');
     timeGroup.style.display = 'flex';
   } else {
     setsInput.disabled = false;
-    repsInput.disabled = false;
+    repsInput.classList.remove('timed');
+    repsLabel.classList.remove('timed');
     timeGroup.style.display = 'none';
   }
 }
@@ -31,66 +44,78 @@ function addExercise() {
   const weightUnit = document.getElementById('weight-unit').value;
   const date = document.getElementById('date').value;
 
-  if (exercise === "Planks" && !time) {
-    alert('Please enter time for Planks');
+  if (isTimedExercise(exercise) && (!time)) {
+    alert('Please enter time for this exercise');
     return;
   }
 
-  if (exercise !== "Planks" && (!sets || !reps)) {
+  if (!isTimedExercise(exercise) && (!sets || !reps)) {
     alert('Please enter sets and reps');
     return;
   }
 
-  const exercises = getExercises();
-  exercises.push({ exercise, sets, reps, time, weight, weightUnit, date });
-  localStorage.setItem('exercises', JSON.stringify(exercises));
-  displayExercise({ exercise, sets, reps, time, weight, weightUnit, date });
+  const newExercise = { exercise, sets, reps, time, weight, weightUnit, date };
+  exercisesData.push(newExercise);
+  saveExercises();
+  displayExercise(newExercise);
 }
 
-function getExercises() {
-  const exercises = localStorage.getItem('exercises');
-  return exercises ? JSON.parse(exercises) : [];
+function saveExercises() {
+  localStorage.setItem('exercises', JSON.stringify(exercisesData));
+}
+
+function loadExercises() {
+  const savedExercises = localStorage.getItem('exercises');
+  exercisesData = savedExercises ? JSON.parse(savedExercises) : [];
+  exercisesData.forEach(displayExercise);
 }
 
 function displayExercise(exerciseData) {
   const exerciseList = document.getElementById('exercise-list');
   const exerciseItem = document.createElement('div');
   exerciseItem.classList.add('exercise-item');
+  exerciseItem.id = `exercise-${exerciseData.exercise}-${exerciseData.date}`;
 
-  let exerciseText = `${exerciseData.exercise}`;
-  let infoText = '';
+  let titleElement = document.createElement('div');
+  titleElement.classList.add('title');
+  titleElement.textContent = exerciseData.exercise;
 
-  if (exerciseData.exercise === "Planks") {
-    exerciseText += `<br>Time: ${exerciseData.time} seconds`;
+  let infoElement = document.createElement('div');
+  infoElement.classList.add('info');
+
+  if (isTimedExercise(exerciseData.exercise)) {
+    infoElement.textContent = `Time: ${exerciseData.time} seconds`;
   } else {
-    infoText = `<br>Sets: ${exerciseData.sets}, Reps: ${exerciseData.reps}`;
+    infoElement.textContent = `Sets: ${exerciseData.sets}, Reps: ${exerciseData.reps}`;
   }
 
-  const weightText = exerciseData.weight === 'Bodyweight' ? exerciseData.weight : `${exerciseData.weight} ${exerciseData.weightUnit}`;
+  let weightElement = document.createElement('div');
+  weightElement.classList.add('info');
+  weightElement.textContent = `Weight: ${exerciseData.weight === 'Bodyweight' ? 
+    exerciseData.weight : `${exerciseData.weight} ${exerciseData.weightUnit}`}`;
 
-  exerciseItem.innerHTML = `
-    <div class="title">${exerciseText}</div>
-    <div class="info">${infoText}</div>
-    <div class="info">Weight: ${weightText}</div>
-    <div class="date">Date: ${exerciseData.date}</div>
-    <button class="delete-btn" onclick="deleteExercise('${exerciseData.date}', '${exerciseData.exercise}')">Delete</button>
-  `;
+  let dateElement = document.createElement('div');
+  dateElement.classList.add('date');
+  dateElement.textContent = `Date: ${exerciseData.date}`;
+
+  let deleteButton = document.createElement('button');
+  deleteButton.classList.add('delete-btn');
+  deleteButton.textContent = 'Delete';
+  deleteButton.onclick = function() {
+    deleteExercise(exerciseData);
+    exerciseItem.remove();  // Remove the exercise card from the DOM
+  };
+
+  exerciseItem.appendChild(titleElement);
+  exerciseItem.appendChild(infoElement);
+  exerciseItem.appendChild(weightElement);
+  exerciseItem.appendChild(dateElement);
+  exerciseItem.appendChild(deleteButton);
+
   exerciseList.appendChild(exerciseItem);
 }
 
-function deleteExercise(date, exercise) {
-  const exercises = getExercises();
-  const updatedExercises = exercises.filter(item => !(item.date === date && item.exercise === exercise));
-  localStorage.setItem('exercises', JSON.stringify(updatedExercises));
-  loadExercises();
-}
-
-function loadExercises() {
-  const exercises = getExercises();
-  const exerciseList = document.getElementById('exercise-list');
-  exerciseList.innerHTML = '';
-
-  exercises.forEach(exercise => {
-    displayExercise(exercise);
-  });
+function deleteExercise(exerciseData) {
+  exercisesData = exercisesData.filter(item => item.date !== exerciseData.date || item.exercise !== exerciseData.exercise);
+  saveExercises();
 }
