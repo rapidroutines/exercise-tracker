@@ -1,1 +1,121 @@
-const _0x324199=_0x3527;(function(_0x40a6cf,_0x39833f){const _0x50e3c0=_0x3527,_0x457c0b=_0x40a6cf();while(!![]){try{const _0x376311=parseInt(_0x50e3c0(0x1b5))/0x1+parseInt(_0x50e3c0(0x1bb))/0x2*(-parseInt(_0x50e3c0(0x1c4))/0x3)+-parseInt(_0x50e3c0(0x1ad))/0x4+parseInt(_0x50e3c0(0x19d))/0x5+parseInt(_0x50e3c0(0x1a0))/0x6+parseInt(_0x50e3c0(0x1b3))/0x7+-parseInt(_0x50e3c0(0x1c5))/0x8;if(_0x376311===_0x39833f)break;else _0x457c0b['push'](_0x457c0b['shift']());}catch(_0x2e885d){_0x457c0b['push'](_0x457c0b['shift']());}}}(_0x477a,0x9fb6b));const timedExercises=[_0x324199(0x189),_0x324199(0x1bf),_0x324199(0x18f),_0x324199(0x1c1),_0x324199(0x1a8),'Front\x20Lever',_0x324199(0x1a6),_0x324199(0x19a),_0x324199(0x1b9),_0x324199(0x18b),'Wall\x20Sit',_0x324199(0x190),_0x324199(0x1ab),'V-sit\x20Hold',_0x324199(0x1b1),''];let exercisesData=[];function _0x3527(_0x2c1816,_0x3e5b6f){const _0x477a52=_0x477a();return _0x3527=function(_0x3527c6,_0x49044a){_0x3527c6=_0x3527c6-0x182;let _0x499a50=_0x477a52[_0x3527c6];return _0x499a50;},_0x3527(_0x2c1816,_0x3e5b6f);}window[_0x324199(0x198)]=function(){const _0x2e4557=_0x324199,_0x3d62ce=new Date()[_0x2e4557(0x1c7)]()[_0x2e4557(0x1b7)]('T')[0x0];document[_0x2e4557(0x1bd)](_0x2e4557(0x19b))['value']=_0x3d62ce,loadExercises(),toggleInputFields();};function isTimedExercise(_0x4e64e8){return timedExercises['includes'](_0x4e64e8);}function toggleInputFields(){const _0x2f9a4a=_0x324199,_0x46d6a1=document['getElementById'](_0x2f9a4a(0x1ae))[_0x2f9a4a(0x1a4)],_0x10bd73=document[_0x2f9a4a(0x1bd)](_0x2f9a4a(0x1b6)),_0x29c3ae=document[_0x2f9a4a(0x1bd)](_0x2f9a4a(0x188)),_0x2eed9e=document[_0x2f9a4a(0x1bd)](_0x2f9a4a(0x1b8)),_0xafd1b1=document[_0x2f9a4a(0x1c6)](_0x2f9a4a(0x193));isTimedExercise(_0x46d6a1)?(_0x10bd73[_0x2f9a4a(0x1a2)]=![],_0x29c3ae['classList'][_0x2f9a4a(0x1b4)]('timed'),_0xafd1b1[_0x2f9a4a(0x19f)][_0x2f9a4a(0x1b4)](_0x2f9a4a(0x1c8)),_0x2eed9e[_0x2f9a4a(0x187)]['display']=_0x2f9a4a(0x185)):(_0x10bd73['disabled']=![],_0x29c3ae[_0x2f9a4a(0x19f)][_0x2f9a4a(0x18c)](_0x2f9a4a(0x1c8)),_0xafd1b1[_0x2f9a4a(0x19f)]['remove'](_0x2f9a4a(0x1c8)),_0x2eed9e[_0x2f9a4a(0x187)][_0x2f9a4a(0x1aa)]=_0x2f9a4a(0x1a1));}function addExercise(){const _0x3c094f=_0x324199,_0x45a502=document[_0x3c094f(0x1bd)](_0x3c094f(0x1ae))[_0x3c094f(0x1a4)],_0x21fb0d=document['getElementById'](_0x3c094f(0x1b6))[_0x3c094f(0x1a4)],_0x24745f=document[_0x3c094f(0x1bd)](_0x3c094f(0x188))[_0x3c094f(0x1a4)],_0x5b3e49=document[_0x3c094f(0x1bd)](_0x3c094f(0x1a9))[_0x3c094f(0x1a4)],_0x4b951a=document['getElementById']('weight')['value']||'Bodyweight',_0x54d73c=document[_0x3c094f(0x1bd)](_0x3c094f(0x18d))['value'],_0x407d8e=document[_0x3c094f(0x1bd)]('date')[_0x3c094f(0x1a4)];if(isTimedExercise(_0x45a502)&&!_0x5b3e49){alert(_0x3c094f(0x197));return;}if(!isTimedExercise(_0x45a502)&&(!_0x21fb0d||!_0x24745f)){alert(_0x3c094f(0x1c0));return;}const _0xcc560={'exercise':_0x45a502,'sets':_0x21fb0d,'reps':_0x24745f,'time':_0x5b3e49,'weight':_0x4b951a,'weightUnit':_0x54d73c,'date':_0x407d8e};exercisesData['push'](_0xcc560),saveExercises(),displayExercise(_0xcc560);}function saveExercises(){const _0x5f1e2c=_0x324199;localStorage[_0x5f1e2c(0x1a5)](_0x5f1e2c(0x186),JSON[_0x5f1e2c(0x1be)](exercisesData));}function loadExercises(){const _0x41aabd=_0x324199,_0x273cfd=localStorage['getItem']('exercises');exercisesData=_0x273cfd?JSON[_0x41aabd(0x18a)](_0x273cfd):[],exercisesData[_0x41aabd(0x1af)](displayExercise);}function displayExercise(_0x2277a6){const _0x205739=_0x324199,_0x57008b=document[_0x205739(0x1bd)](_0x205739(0x194)),_0x50a6ba=document[_0x205739(0x1a3)]('div');_0x50a6ba[_0x205739(0x19f)][_0x205739(0x1b4)](_0x205739(0x182)),_0x50a6ba['id']=_0x205739(0x1ba)+_0x2277a6['exercise']+'-'+_0x2277a6['date'];let _0x46e266=document[_0x205739(0x1a3)](_0x205739(0x1ac));_0x46e266[_0x205739(0x19f)][_0x205739(0x1b4)](_0x205739(0x18e)),_0x46e266[_0x205739(0x191)]=_0x2277a6[_0x205739(0x195)];let _0x525836=document[_0x205739(0x1a3)](_0x205739(0x1ac));_0x525836[_0x205739(0x19f)]['add'](_0x205739(0x1c2));isTimedExercise(_0x2277a6['exercise'])?_0x525836[_0x205739(0x191)]='Time:\x20'+_0x2277a6[_0x205739(0x1a9)]+_0x205739(0x192):_0x525836[_0x205739(0x191)]=_0x205739(0x1c3)+_0x2277a6['sets']+',\x20Reps:\x20'+_0x2277a6[_0x205739(0x188)];let _0x33470a=document[_0x205739(0x1a3)](_0x205739(0x1ac));_0x33470a[_0x205739(0x19f)][_0x205739(0x1b4)](_0x205739(0x1c2)),_0x33470a[_0x205739(0x191)]=_0x205739(0x199)+(_0x2277a6[_0x205739(0x19e)]===_0x205739(0x1bc)?_0x2277a6[_0x205739(0x19e)]:_0x2277a6[_0x205739(0x19e)]+'\x20'+_0x2277a6[_0x205739(0x1b0)]);let _0x23f85d=document[_0x205739(0x1a3)](_0x205739(0x1ac));_0x23f85d['classList'][_0x205739(0x1b4)](_0x205739(0x19b)),_0x23f85d[_0x205739(0x191)]=_0x205739(0x183)+_0x2277a6[_0x205739(0x19b)];let _0x1612e9=document[_0x205739(0x1a3)](_0x205739(0x19c));_0x1612e9[_0x205739(0x19f)][_0x205739(0x1b4)]('delete-btn'),_0x1612e9[_0x205739(0x191)]=_0x205739(0x196),_0x1612e9[_0x205739(0x184)]=function(){const _0x480504=_0x205739;deleteExercise(_0x2277a6),_0x50a6ba[_0x480504(0x18c)]();},_0x50a6ba[_0x205739(0x1b2)](_0x46e266),_0x50a6ba['appendChild'](_0x525836),_0x50a6ba[_0x205739(0x1b2)](_0x33470a),_0x50a6ba[_0x205739(0x1b2)](_0x23f85d),_0x50a6ba['appendChild'](_0x1612e9),_0x57008b[_0x205739(0x1b2)](_0x50a6ba);}function deleteExercise(_0x7b3d80){const _0x2d669c=_0x324199;exercisesData=exercisesData[_0x2d669c(0x1a7)](_0x585245=>_0x585245['date']!==_0x7b3d80[_0x2d669c(0x19b)]||_0x585245[_0x2d669c(0x195)]!==_0x7b3d80['exercise']),saveExercises();}function _0x477a(){const _0x44e10a=['timed','exercise-item','Date:\x20','onclick','flex','exercises','style','reps','Planks','parse','Side\x20Plank','remove','weight-unit','title','Straddle\x20Planche','Superman\x20Hold','textContent','\x20seconds','.reps-label','exercise-list','exercise','Delete','Please\x20enter\x20time\x20for\x20this\x20exercise','onload','Weight:\x20','Dragon\x20Flag','date','button','1501480cpxfAD','weight','classList','6061962CoPMVk','none','disabled','createElement','value','setItem','Back\x20Lever','filter','Frog\x20pose','time','display','L-sit\x20Hold','div','3889348lkqigL','exercise-select','forEach','weightUnit','Handstand\x20Holds','appendChild','6504113ImqQRI','add','1128470iSyQit','sets','split','time-group','Human\x20Flag','exercise-','68FPTJkf','Bodyweight','getElementById','stringify','Tuck\x20Planche','Please\x20enter\x20sets\x20and\x20reps','Crow\x20Pose','info','Sets:\x20','48225WBPLLd','9561424UHkmTc','querySelector','toISOString'];_0x477a=function(){return _0x44e10a;};return _0x477a();}
+const timedExercises = [
+  "Planks", "Tuck Planche" , "Straddle Planche", "Crow Pose", "Frog pose", "Front Lever" , "Back Lever" , "Dragon Flag" , "Human Flag" , "Side Plank" , "Wall Sit" , "Superman Hold" , "L-sit Hold" , "V-sit Hold" , "Handstand Holds" , ""
+];
+
+let exercisesData = [];
+
+window.onload = function() {
+  const today = new Date().toISOString().split('T')[0];
+  document.getElementById('date').value = today;
+  loadExercises();
+  toggleInputFields();
+};
+
+function isTimedExercise(exercise) {
+  return timedExercises.includes(exercise);
+}
+
+function toggleInputFields() {
+  const selectedExercise = document.getElementById('exercise-select').value;
+  const setsInput = document.getElementById('sets');
+  const repsInput = document.getElementById('reps');
+  const timeGroup = document.getElementById('time-group');
+  const repsLabel = document.querySelector('.reps-label');
+
+  if (isTimedExercise(selectedExercise)) {
+    setsInput.disabled = false;
+    repsInput.classList.add('timed');
+    repsLabel.classList.add('timed');
+    timeGroup.style.display = 'flex';
+  } else {
+    setsInput.disabled = false;
+    repsInput.classList.remove('timed');
+    repsLabel.classList.remove('timed');
+    timeGroup.style.display = 'none';
+  }
+}
+
+function addExercise() {
+  const exercise = document.getElementById('exercise-select').value;
+  const sets = document.getElementById('sets').value;
+  const reps = document.getElementById('reps').value;
+  const time = document.getElementById('time').value;
+  const weight = document.getElementById('weight').value || 'Bodyweight';
+  const weightUnit = document.getElementById('weight-unit').value;
+  const date = document.getElementById('date').value;
+
+  if (isTimedExercise(exercise) && (!time)) {
+    alert('Please enter time for this exercise');
+    return;
+  }
+
+  if (!isTimedExercise(exercise) && (!sets || !reps)) {
+    alert('Please enter sets and reps');
+    return;
+  }
+
+  const newExercise = { exercise, sets, reps, time, weight, weightUnit, date };
+  exercisesData.push(newExercise);
+  saveExercises();
+  displayExercise(newExercise);
+}
+
+function saveExercises() {
+  localStorage.setItem('exercises', JSON.stringify(exercisesData));
+}
+
+function loadExercises() {
+  const savedExercises = localStorage.getItem('exercises');
+  exercisesData = savedExercises ? JSON.parse(savedExercises) : [];
+  exercisesData.forEach(displayExercise);
+}
+
+function displayExercise(exerciseData) {
+  const exerciseList = document.getElementById('exercise-list');
+  const exerciseItem = document.createElement('div');
+  exerciseItem.classList.add('exercise-item');
+  exerciseItem.id = `exercise-${exerciseData.exercise}-${exerciseData.date}`;
+
+  let titleElement = document.createElement('div');
+  titleElement.classList.add('title');
+  titleElement.textContent = exerciseData.exercise;
+
+  let infoElement = document.createElement('div');
+  infoElement.classList.add('info');
+
+  if (isTimedExercise(exerciseData.exercise)) {
+    infoElement.textContent = `Time: ${exerciseData.time} seconds`;
+  } else {
+    infoElement.textContent = `Sets: ${exerciseData.sets}, Reps: ${exerciseData.reps}`;
+  }
+
+  let weightElement = document.createElement('div');
+  weightElement.classList.add('info');
+  weightElement.textContent = `Weight: ${exerciseData.weight === 'Bodyweight' ? 
+    exerciseData.weight : `${exerciseData.weight} ${exerciseData.weightUnit}`}`;
+
+  let dateElement = document.createElement('div');
+  dateElement.classList.add('date');
+  dateElement.textContent = `Date: ${exerciseData.date}`;
+
+  let deleteButton = document.createElement('button');
+  deleteButton.classList.add('delete-btn');
+  deleteButton.textContent = 'Delete';
+  deleteButton.onclick = function() {
+    deleteExercise(exerciseData);
+    exerciseItem.remove();  // Remove the exercise card from the DOM
+  };
+
+  exerciseItem.appendChild(titleElement);
+  exerciseItem.appendChild(infoElement);
+  exerciseItem.appendChild(weightElement);
+  exerciseItem.appendChild(dateElement);
+  exerciseItem.appendChild(deleteButton);
+
+  exerciseList.appendChild(exerciseItem);
+}
+
+function deleteExercise(exerciseData) {
+  exercisesData = exercisesData.filter(item => item.date !== exerciseData.date || item.exercise !== exerciseData.exercise);
+  saveExercises();
+}
