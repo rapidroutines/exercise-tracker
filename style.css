@@ -1,6 +1,6 @@
   body {
     font-family: 'Arial', sans-serif;
-    background: black;
+    background: white;
     margin: 0;
     padding: 0;
     min-height: 100vh;
@@ -59,7 +59,7 @@
   .add-btn {
     width: 100%;
     padding: 16px;
-    background-color: #1e88e5;
+    background-color: #1e628c;
     color: white;
     border: none;
     border-radius: 8px;
