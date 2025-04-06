@@ -161,7 +161,6 @@
     background-color: #f9f9f9;
   }
 
-  /* Hide reps field and label for timed exercises */
   .reps-input,
   .reps-label {
     display: block;
