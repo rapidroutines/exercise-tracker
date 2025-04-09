@@ -5,8 +5,20 @@ const timedExercises = [
 let exercisesData = [];
 
 window.onload = function() {
-  const today = new Date().toISOString().split('T')[0];
-  document.getElementById('date').value = today;
+  // Get the current date in US Eastern Time
+  const estOptions = { 
+    timeZone: 'America/New_York',
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit'
+  };
+  
+  // Format the date to YYYY-MM-DD for the input field
+  const estDate = new Date().toLocaleDateString('en-US', estOptions);
+  const [month, day, year] = estDate.split('/');
+  const formattedDate = `20${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
+  
+  document.getElementById('date').value = formattedDate;
   loadExercises();
   toggleInputFields();
 };
