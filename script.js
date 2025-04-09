@@ -16,7 +16,8 @@ window.onload = function() {
   // Format the date to YYYY-MM-DD for the input field
   const estDate = new Date().toLocaleDateString('en-US', estOptions);
   const [month, day, year] = estDate.split('/');
-  const formattedDate = `20${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
+  // The year is already in full format (yyyy), no need to add "20" prefix
+  const formattedDate = `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
   
   document.getElementById('date').value = formattedDate;
   loadExercises();
