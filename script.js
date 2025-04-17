@@ -28,6 +28,12 @@ function isTimedExercise(exercise) {
   return timedExercises.includes(exercise);
 }
 
+function formatDate(dateString) {
+  // Convert YYYY-MM-DD to MM/DD/YYYY
+  const [year, month, day] = dateString.split('-');
+  return `${month}/${day}/${year}`;
+}
+
 function toggleInputFields() {
   const selectedExercise = document.getElementById('exercise-select').value;
   const setsInput = document.getElementById('sets');
@@ -109,7 +115,7 @@ function displayExercise(exerciseData) {
 
   let dateElement = document.createElement('div');
   dateElement.classList.add('date');
-  dateElement.textContent = `Date: ${exerciseData.date}`;
+  dateElement.textContent = `Date: ${formatDate(exerciseData.date)}`;
 
   let deleteButton = document.createElement('button');
   deleteButton.classList.add('delete-btn');
