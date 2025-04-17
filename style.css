@@ -113,6 +113,33 @@ h2 {
     font-size: 0.9rem;
 }
 
+.weight-group {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.weight-group input {
+    flex: 3; /* Takes more space */
+}
+
+.weight-group select {
+    flex: 1; /* Takes less space */
+    width: auto;
+    padding: 12px;
+    font-size: 1rem;
+}
+
+.reps-input,
+.reps-label {
+    display: block;
+}
+
+.reps-input.timed,
+.reps-label.timed {
+    display: none;
+}
+
 /* Viewport meta tag adjustment */
 @media screen and (max-width: 600px) {
     html {
