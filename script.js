@@ -5,7 +5,6 @@ const timedExercises = [
 let exercisesData = [];
 
 window.onload = function() {
-  // Get the current date in US Eastern Time
   const estOptions = { 
     timeZone: 'America/New_York',
     year: 'numeric',
@@ -13,10 +12,8 @@ window.onload = function() {
     day: '2-digit'
   };
   
-  // Format the date to YYYY-MM-DD for the input field
   const estDate = new Date().toLocaleDateString('en-US', estOptions);
   const [month, day, year] = estDate.split('/');
-  // The year is already in full format (yyyy), no need to add "20" prefix
   const formattedDate = `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
   
   document.getElementById('date').value = formattedDate;
@@ -26,6 +23,11 @@ window.onload = function() {
 
 function isTimedExercise(exercise) {
   return timedExercises.includes(exercise);
+}
+
+function formatDate(dateString) {
+  const [year, month, day] = dateString.split('-');
+  return `${month}/${day}/${year}`;
 }
 
 function toggleInputFields() {
@@ -109,14 +111,14 @@ function displayExercise(exerciseData) {
 
   let dateElement = document.createElement('div');
   dateElement.classList.add('date');
-  dateElement.textContent = `Date: ${exerciseData.date}`;
+  dateElement.textContent = `Date: ${formatDate(exerciseData.date)}`;
 
   let deleteButton = document.createElement('button');
   deleteButton.classList.add('delete-btn');
   deleteButton.textContent = 'Delete';
   deleteButton.onclick = function() {
     deleteExercise(exerciseData);
-    exerciseItem.remove();  // Remove the exercise card from the DOM
+    exerciseItem.remove();  
   };
 
   exerciseItem.appendChild(titleElement);
