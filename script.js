@@ -3,6 +3,7 @@ const timedExercises = [
 ];
 
 let exercisesData = [];
+let isAuthenticated = false;
 
 window.onload = function() {
   // Get the current date in US Eastern Time
@@ -16,11 +17,32 @@ window.onload = function() {
   // Format the date to YYYY-MM-DD for the input field
   const estDate = new Date().toLocaleDateString('en-US', estOptions);
   const [month, day, year] = estDate.split('/');
-  // The year is already in full format (yyyy), no need to add "20" prefix
   const formattedDate = `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
   
   document.getElementById('date').value = formattedDate;
-  loadExercises();
+  
+  // Check for authentication - send message to parent
+  window.parent.postMessage({ type: "checkAuth" }, "*");
+  
+  // Listen for messages from parent
+  window.addEventListener("message", (event) => {
+    if (event.data.type === "authStatus") {
+      isAuthenticated = event.data.isAuthenticated;
+      
+      if (isAuthenticated) {
+        // Request saved exercises
+        window.parent.postMessage({ type: "getTrackerExercises" }, "*");
+      } else {
+        // Fallback to local storage if not authenticated
+        loadExercisesFromLocalStorage();
+      }
+    } else if (event.data.type === "trackerExercisesData") {
+      // We received exercises from parent (authenticated)
+      exercisesData = event.data.exercises || [];
+      displayAllExercises();
+    }
+  });
+  
   toggleInputFields();
 };
 
@@ -67,19 +89,55 @@ function addExercise() {
     return;
   }
 
-  const newExercise = { exercise, sets, reps, time, weight, weightUnit, date };
+  const newExercise = { 
+    id: Date.now().toString(),
+    exercise, 
+    sets, 
+    reps, 
+    time, 
+    weight, 
+    weightUnit, 
+    date,
+    timestamp: new Date().toISOString()
+  };
+  
   exercisesData.push(newExercise);
-  saveExercises();
+  
+  if (isAuthenticated) {
+    // Save to parent (authenticated)
+    window.parent.postMessage({ 
+      type: "saveTrackerExercise", 
+      exercise: newExercise 
+    }, "*");
+  } else {
+    // Save to localStorage as fallback when not authenticated
+    saveExercisesToLocalStorage();
+  }
+  
   displayExercise(newExercise);
+  
+  // Clear form fields
+  document.getElementById('time').value = '';
+  document.getElementById('reps').value = '';
+  document.getElementById('weight').value = '';
 }
 
-function saveExercises() {
+function saveExercisesToLocalStorage() {
   localStorage.setItem('exercises', JSON.stringify(exercisesData));
 }
 
-function loadExercises() {
+function loadExercisesFromLocalStorage() {
   const savedExercises = localStorage.getItem('exercises');
   exercisesData = savedExercises ? JSON.parse(savedExercises) : [];
+  displayAllExercises();
+}
+
+function displayAllExercises() {
+  // Clear current display
+  const exerciseList = document.getElementById('exercise-list');
+  exerciseList.innerHTML = '';
+  
+  // Add all exercises to display
   exercisesData.forEach(displayExercise);
 }
 
@@ -87,7 +145,7 @@ function displayExercise(exerciseData) {
   const exerciseList = document.getElementById('exercise-list');
   const exerciseItem = document.createElement('div');
   exerciseItem.classList.add('exercise-item');
-  exerciseItem.id = `exercise-${exerciseData.exercise}-${exerciseData.date}`;
+  exerciseItem.id = `exercise-${exerciseData.id}`;
 
   let titleElement = document.createElement('div');
   titleElement.classList.add('title');
@@ -129,6 +187,16 @@ function displayExercise(exerciseData) {
 }
 
 function deleteExercise(exerciseData) {
-  exercisesData = exercisesData.filter(item => item.date !== exerciseData.date || item.exercise !== exerciseData.exercise);
-  saveExercises();
+  exercisesData = exercisesData.filter(item => item.id !== exerciseData.id);
+  
+  if (isAuthenticated) {
+    // Send delete request to parent
+    window.parent.postMessage({
+      type: "removeTrackerExercise",
+      exerciseId: exerciseData.id
+    }, "*");
+  } else {
+    // Save to localStorage as fallback
+    saveExercisesToLocalStorage();
+  }
 }
