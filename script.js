@@ -102,10 +102,11 @@ window.onload = function() {
         // Request saved exercises from the parent
         window.parent.postMessage({ type: "getTrackerExercises" }, "*");
       } else {
-        // Use a temporary session storage if not authenticated
-        loadExercisesFromSessionStorage();
-        // Show notification about temporary storage
-        showNotification("You're not signed in. Your exercises will only be saved in this browser session.");
+        // Show notification about signing in to save data
+        showNotification("You're not signed in. Your exercises will not be saved. Sign in to save your workout data.");
+        // Clear any existing data
+        exercisesData = [];
+        displayAllExercises();
       }
     } else if (event.data.type === "trackerExercisesData") {
       // We received exercises from parent (authenticated)
@@ -160,9 +161,9 @@ function addExercise() {
     return;
   }
 
-  // Show notification if not authenticated
+  // Check if user is authenticated
   if (!isAuthenticated) {
-    showNotification("This exercise will only be saved temporarily. Sign in to save your data permanently.");
+    showNotification("Warning: You are not signed in. This exercise will NOT be saved. Sign in to save your exercises.");
   }
 
   const newExercise = { 
@@ -175,20 +176,21 @@ function addExercise() {
     weightUnit, 
     date,
     timestamp: new Date().toISOString(),
-    userId: userId // Adding userId to track which user this exercise belongs to
+    userId: userId
   };
   
-  exercisesData.push(newExercise);
-  
   if (isAuthenticated) {
+    // Add to the local array for display
+    exercisesData.push(newExercise);
+    
     // Save to parent (authenticated)
     window.parent.postMessage({ 
       type: "saveTrackerExercise", 
       exercise: newExercise 
     }, "*");
   } else {
-    // Save to sessionStorage as temporary storage when not authenticated
-    saveExercisesToSessionStorage();
+    // Still add to UI temporarily but don't save anywhere
+    exercisesData.push(newExercise);
   }
   
   displayExercise(newExercise);
@@ -264,6 +266,7 @@ function displayExercise(exerciseData) {
 }
 
 function deleteExercise(exerciseData) {
+  // Remove from UI array
   exercisesData = exercisesData.filter(item => item.id !== exerciseData.id);
   
   if (isAuthenticated) {
@@ -273,9 +276,7 @@ function deleteExercise(exerciseData) {
       exerciseId: exerciseData.id
     }, "*");
   } else {
-    // Save to sessionStorage as temporary storage
-    saveExercisesToSessionStorage();
-    // Show notification reminding that this is temporary
-    showNotification("Exercise deleted from temporary storage. Sign in to manage your exercises permanently.");
+    // Remind user that nothing is being saved
+    showNotification("Note: Since you're not signed in, no data is being saved.");
   }
 }
