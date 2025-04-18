@@ -66,6 +66,29 @@ h2 {
     transition: background-color 0.3s ease;
 }
 
+.add-btn:hover {
+    background-color: #17516f;
+}
+
+.delete-all-btn {
+    width: 100%;
+    padding: 12px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    background-color: #f44336;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.delete-all-btn:hover {
+    background-color: #d32f2f;
+}
+
 .exercise-list {
     margin-top: 20px;
     text-align: left;
@@ -81,6 +104,7 @@ h2 {
     font-size: 1rem;
     border: 1px solid #ddd;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    position: relative;
 }
 
 .exercise-item .title {
@@ -111,6 +135,11 @@ h2 {
     cursor: pointer;
     font-weight: bold;
     font-size: 0.9rem;
+    transition: background-color 0.2s ease;
+}
+
+.exercise-item .delete-btn:hover {
+    background-color: #d32f2f;
 }
 
 .weight-group {
@@ -138,6 +167,80 @@ h2 {
 .reps-input.timed,
 .reps-label.timed {
     display: none;
+}
+
+.notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+    max-width: 300px;
+    animation: fadeIn 0.3s, fadeOut 0.3s 2.7s;
+}
+
+.notification-content {
+    background-color: #1e628c;
+    color: white;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.notification p {
+    margin: 0;
+}
+
+.notification-close {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+.login-banner {
+    margin-bottom: 15px;
+    padding: 12px;
+    background-color: #fff3cd;
+    border: 1px solid #ffeeba;
+    border-radius: 8px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.login-banner p {
+    margin: 0 0 10px 0;
+    color: #856404;
+}
+
+.login-button {
+    padding: 8px 16px;
+    background-color: #1e628c;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.login-button:hover {
+    background-color: #17516f;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeOut {
+    from { opacity: 1; transform: translateY(0); }
+    to { opacity: 0; transform: translateY(-10px); }
 }
 
 @media screen and (max-width: 600px) {
