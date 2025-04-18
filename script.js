@@ -4,6 +4,7 @@ const timedExercises = [
 
 let exercisesData = [];
 let isAuthenticated = false;
+let userId = null;
 
 window.onload = function() {
   // Get the current date in US Eastern Time
@@ -28,13 +29,14 @@ window.onload = function() {
   window.addEventListener("message", (event) => {
     if (event.data.type === "authStatus") {
       isAuthenticated = event.data.isAuthenticated;
+      userId = event.data.userId || null;
       
       if (isAuthenticated) {
-        // Request saved exercises
+        // Request saved exercises from the parent
         window.parent.postMessage({ type: "getTrackerExercises" }, "*");
       } else {
-        // Fallback to local storage if not authenticated
-        loadExercisesFromLocalStorage();
+        // Use a temporary session storage if not authenticated
+        loadExercisesFromSessionStorage();
       }
     } else if (event.data.type === "trackerExercisesData") {
       // We received exercises from parent (authenticated)
@@ -98,7 +100,8 @@ function addExercise() {
     weight, 
     weightUnit, 
     date,
-    timestamp: new Date().toISOString()
+    timestamp: new Date().toISOString(),
+    userId: userId // Adding userId to track which user this exercise belongs to
   };
   
   exercisesData.push(newExercise);
@@ -110,8 +113,8 @@ function addExercise() {
       exercise: newExercise 
     }, "*");
   } else {
-    // Save to localStorage as fallback when not authenticated
-    saveExercisesToLocalStorage();
+    // Save to sessionStorage as temporary storage when not authenticated
+    saveExercisesToSessionStorage();
   }
   
   displayExercise(newExercise);
@@ -122,12 +125,12 @@ function addExercise() {
   document.getElementById('weight').value = '';
 }
 
-function saveExercisesToLocalStorage() {
-  localStorage.setItem('exercises', JSON.stringify(exercisesData));
+function saveExercisesToSessionStorage() {
+  sessionStorage.setItem('exercises', JSON.stringify(exercisesData));
 }
 
-function loadExercisesFromLocalStorage() {
-  const savedExercises = localStorage.getItem('exercises');
+function loadExercisesFromSessionStorage() {
+  const savedExercises = sessionStorage.getItem('exercises');
   exercisesData = savedExercises ? JSON.parse(savedExercises) : [];
   displayAllExercises();
 }
@@ -196,7 +199,7 @@ function deleteExercise(exerciseData) {
       exerciseId: exerciseData.id
     }, "*");
   } else {
-    // Save to localStorage as fallback
-    saveExercisesToLocalStorage();
+    // Save to sessionStorage as temporary storage
+    saveExercisesToSessionStorage();
   }
 }
