@@ -10,22 +10,22 @@ body {
 }
 
 .container {
-    width: 95%; /* Adjusted for mobile */
+    width: 95%;
     max-width: 600px;
-    padding: 20px; /* Reduced padding */
+    padding: 20px; 
     background: #ffffff;
     border-radius: 8px;
     border: 1px solid black;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     text-align: center;
     position: relative;
-    margin: 20px auto; /* Reduced margin */
+    margin: 20px auto; 
     overflow-y: hidden;
-    box-sizing: border-box; /* Ensure padding is included in width */
+    box-sizing: border-box; 
 }
 
 h2 {
-    font-size: 1.8rem; /* Slightly reduced */
+    font-size: 1.8rem; 
     color: #333;
     margin-bottom: 20px;
     font-weight: bold;
@@ -37,7 +37,7 @@ h2 {
 }
 
 .input-group label {
-    font-size: 0.9rem; /* Slightly smaller */
+    font-size: 0.9rem; 
     color: #555;
     margin-bottom: 6px;
     display: block;
@@ -45,10 +45,10 @@ h2 {
 
 .input-group input, .input-group select {
     width: 100%;
-    padding: 12px; /* Reduced padding */
+    padding: 12px; 
     border-radius: 8px;
     border: 1px solid #ddd;
-    font-size: 1rem; /* Reduced font size */
+    font-size: 1rem; 
     background-color: #f9f9f9;
     box-sizing: border-box;
 }
@@ -69,7 +69,7 @@ h2 {
 .exercise-list {
     margin-top: 20px;
     text-align: left;
-    max-height: 250px; /* Reduced max height */
+    max-height: 250px; 
     overflow-y: auto;
 }
 
@@ -113,10 +113,36 @@ h2 {
     font-size: 0.9rem;
 }
 
-/* Viewport meta tag adjustment */
+.weight-group {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.weight-group input {
+    flex: 3; 
+}
+
+.weight-group select {
+    flex: 1; 
+    width: auto;
+    padding: 12px;
+    font-size: 1rem;
+}
+
+.reps-input,
+.reps-label {
+    display: block;
+}
+
+.reps-input.timed,
+.reps-label.timed {
+    display: none;
+}
+
 @media screen and (max-width: 600px) {
     html {
-        -webkit-text-size-adjust: 100%; /* Prevent auto-zooming on input focus */
+        -webkit-text-size-adjust: 100%; 
         -ms-text-size-adjust: 100%;
     }
     
@@ -131,7 +157,6 @@ h2 {
     }
 }
 
-/* For very small screens */
 @media screen and (max-width: 350px) {
     .container {
         width: 98%;
