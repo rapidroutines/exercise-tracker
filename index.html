@@ -14,6 +14,11 @@
 <body>
   <div class="container">
     <h2>Exercise Tracker</h2>
+    
+    <div id="login-notification" class="login-banner" style="display: none;">
+      <p>Sign in to save your exercises to your account</p>
+      <button id="login-button" class="login-button">Sign In</button>
+    </div>
 
     <div class="input-group">
       <label for="exercise-select">Exercise</label>
@@ -107,7 +112,6 @@
         <option>Farmers Walk</option>
         <option>Pull-over</option>
         <option>Reverse Flyes</option>
-
       </select>
     </div>
 
@@ -144,6 +148,8 @@
 
     <button class="add-btn" onclick="addExercise()">Add Exercise</button>
 
+    <!-- We'll automatically insert the delete-all button here with JS -->
+    
     <div class="exercise-list" id="exercise-list">
     </div>
   </div>
