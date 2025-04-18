@@ -6,6 +6,73 @@ let exercisesData = [];
 let isAuthenticated = false;
 let userId = null;
 
+// Create a notification function
+function showNotification(message, duration = 5000) {
+  // Check if notification container exists
+  let notificationContainer = document.getElementById('notification-container');
+  
+  // If it doesn't exist, create one
+  if (!notificationContainer) {
+    notificationContainer = document.createElement('div');
+    notificationContainer.id = 'notification-container';
+    notificationContainer.style.position = 'fixed';
+    notificationContainer.style.top = '10px';
+    notificationContainer.style.right = '10px';
+    notificationContainer.style.zIndex = '1000';
+    document.body.appendChild(notificationContainer);
+  }
+  
+  // Create notification
+  const notification = document.createElement('div');
+  notification.style.backgroundColor = '#1e628c';
+  notification.style.color = 'white';
+  notification.style.padding = '12px 16px';
+  notification.style.borderRadius = '4px';
+  notification.style.marginBottom = '10px';
+  notification.style.boxShadow = '0 2px 4px rgba(0,0,0,0.2)';
+  notification.style.maxWidth = '300px';
+  notification.style.animation = 'fadeIn 0.3s';
+  notification.innerHTML = message;
+  
+  // Add close button
+  const closeButton = document.createElement('span');
+  closeButton.innerHTML = '&times;';
+  closeButton.style.float = 'right';
+  closeButton.style.cursor = 'pointer';
+  closeButton.style.marginLeft = '10px';
+  closeButton.style.fontWeight = 'bold';
+  closeButton.onclick = function() {
+    notification.remove();
+  };
+  notification.prepend(closeButton);
+  
+  // Add notification to container
+  notificationContainer.appendChild(notification);
+  
+  // Remove after duration
+  setTimeout(() => {
+    notification.style.animation = 'fadeOut 0.3s';
+    setTimeout(() => {
+      notification.remove();
+    }, 300);
+  }, duration);
+}
+
+// Add CSS for animations
+const style = document.createElement('style');
+style.textContent = `
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+  @keyframes fadeOut {
+    from { opacity: 1; transform: translateY(0); }
+    to { opacity: 0; transform: translateY(-10px); }
+  }
+`;
+document.head.appendChild(style);
+
 window.onload = function() {
   // Get the current date in US Eastern Time
   const estOptions = { 
@@ -37,6 +104,8 @@ window.onload = function() {
       } else {
         // Use a temporary session storage if not authenticated
         loadExercisesFromSessionStorage();
+        // Show notification about temporary storage
+        showNotification("You're not signed in. Your exercises will only be saved in this browser session.");
       }
     } else if (event.data.type === "trackerExercisesData") {
       // We received exercises from parent (authenticated)
@@ -89,6 +158,11 @@ function addExercise() {
   if (!isTimedExercise(exercise) && (!sets || !reps)) {
     alert('Please enter sets and reps');
     return;
+  }
+
+  // Show notification if not authenticated
+  if (!isAuthenticated) {
+    showNotification("This exercise will only be saved temporarily. Sign in to save your data permanently.");
   }
 
   const newExercise = { 
@@ -201,5 +275,7 @@ function deleteExercise(exerciseData) {
   } else {
     // Save to sessionStorage as temporary storage
     saveExercisesToSessionStorage();
+    // Show notification reminding that this is temporary
+    showNotification("Exercise deleted from temporary storage. Sign in to manage your exercises permanently.");
   }
 }
