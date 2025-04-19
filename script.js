@@ -6,7 +6,6 @@ let exercisesData = [];
 let isAuthenticated = false;
 let userId = null;
 
-// Remove notification function as it will be handled by the parent
 
 window.onload = function() {
   // Get the current date in US Eastern Time
@@ -37,9 +36,7 @@ window.onload = function() {
         // Request saved exercises from the parent
         window.parent.postMessage({ type: "getTrackerExercises" }, "*");
       } else {
-        // Send message to parent to show notification
-        window.parent.postMessage({ type: "exerciseNotAuthenticated" }, "*");
-        // Clear any existing data
+        // Just clear any existing data, don't notify
         exercisesData = [];
         displayAllExercises();
       }
@@ -121,7 +118,7 @@ function addExercise() {
   } else {
     // Still add to UI temporarily but don't save anywhere
     exercisesData.push(newExercise);
-    // Notify parent about authentication status
+    // Notify parent about authentication status ONLY when adding an exercise
     window.parent.postMessage({ 
       type: "exerciseNotAuthenticated" 
     }, "*");
