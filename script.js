@@ -6,72 +6,7 @@ let exercisesData = [];
 let isAuthenticated = false;
 let userId = null;
 
-// Create a notification function
-function showNotification(message, duration = 5000) {
-  // Check if notification container exists
-  let notificationContainer = document.getElementById('notification-container');
-  
-  // If it doesn't exist, create one
-  if (!notificationContainer) {
-    notificationContainer = document.createElement('div');
-    notificationContainer.id = 'notification-container';
-    notificationContainer.style.position = 'fixed';
-    notificationContainer.style.top = '10px';
-    notificationContainer.style.right = '10px';
-    notificationContainer.style.zIndex = '1000';
-    document.body.appendChild(notificationContainer);
-  }
-  
-  // Create notification
-  const notification = document.createElement('div');
-  notification.style.backgroundColor = '#1e628c';
-  notification.style.color = 'white';
-  notification.style.padding = '12px 16px';
-  notification.style.borderRadius = '4px';
-  notification.style.marginBottom = '10px';
-  notification.style.boxShadow = '0 2px 4px rgba(0,0,0,0.2)';
-  notification.style.maxWidth = '300px';
-  notification.style.animation = 'fadeIn 0.3s';
-  notification.innerHTML = message;
-  
-  // Add close button
-  const closeButton = document.createElement('span');
-  closeButton.innerHTML = '&times;';
-  closeButton.style.float = 'right';
-  closeButton.style.cursor = 'pointer';
-  closeButton.style.marginLeft = '10px';
-  closeButton.style.fontWeight = 'bold';
-  closeButton.onclick = function() {
-    notification.remove();
-  };
-  notification.prepend(closeButton);
-  
-  // Add notification to container
-  notificationContainer.appendChild(notification);
-  
-  // Remove after duration
-  setTimeout(() => {
-    notification.style.animation = 'fadeOut 0.3s';
-    setTimeout(() => {
-      notification.remove();
-    }, 300);
-  }, duration);
-}
-
-// Add CSS for animations
-const style = document.createElement('style');
-style.textContent = `
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(-10px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-  
-  @keyframes fadeOut {
-    from { opacity: 1; transform: translateY(0); }
-    to { opacity: 0; transform: translateY(-10px); }
-  }
-`;
-document.head.appendChild(style);
+// Remove notification function as it will be handled by the parent
 
 window.onload = function() {
   // Get the current date in US Eastern Time
@@ -102,8 +37,8 @@ window.onload = function() {
         // Request saved exercises from the parent
         window.parent.postMessage({ type: "getTrackerExercises" }, "*");
       } else {
-        // Show notification about signing in to save data
-        showNotification("You're not signed in. Your exercises will not be saved. Sign in to save your workout data.");
+        // Send message to parent to show notification
+        window.parent.postMessage({ type: "exerciseNotAuthenticated" }, "*");
         // Clear any existing data
         exercisesData = [];
         displayAllExercises();
@@ -161,11 +96,6 @@ function addExercise() {
     return;
   }
 
-  // Check if user is authenticated
-  if (!isAuthenticated) {
-    showNotification("Warning: You are not signed in. This exercise will NOT be saved. Sign in to save your exercises.");
-  }
-
   const newExercise = { 
     id: Date.now().toString(),
     exercise, 
@@ -191,14 +121,38 @@ function addExercise() {
   } else {
     // Still add to UI temporarily but don't save anywhere
     exercisesData.push(newExercise);
+    // Notify parent about authentication status
+    window.parent.postMessage({ 
+      type: "exerciseNotAuthenticated" 
+    }, "*");
   }
   
   displayExercise(newExercise);
   
-  // Clear form fields
-  document.getElementById('time').value = '';
+  // Clear all form fields
+  document.getElementById('sets').value = '';
   document.getElementById('reps').value = '';
+  document.getElementById('time').value = '';
   document.getElementById('weight').value = '';
+  
+  // Reset select to default value  
+  document.getElementById('exercise-select').selectedIndex = 0;
+  
+  // Reset the date to today's date
+  const estOptions = { 
+    timeZone: 'America/New_York',
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit'
+  };
+  
+  const estDate = new Date().toLocaleDateString('en-US', estOptions);
+  const [month, day, year] = estDate.split('/');
+  const formattedDate = `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
+  document.getElementById('date').value = formattedDate;
+  
+  // Reset interface based on first exercise in list
+  toggleInputFields();
 }
 
 function saveExercisesToSessionStorage() {
@@ -275,8 +229,5 @@ function deleteExercise(exerciseData) {
       type: "removeTrackerExercise",
       exerciseId: exerciseData.id
     }, "*");
-  } else {
-    // Remind user that nothing is being saved
-    showNotification("Note: Since you're not signed in, no data is being saved.");
   }
 }
