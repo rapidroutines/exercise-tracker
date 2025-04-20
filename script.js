@@ -180,7 +180,12 @@ function displayExercise(exerciseData) {
 
   let dateElement = document.createElement('div');
   dateElement.classList.add('date');
-  dateElement.textContent = `Date: ${exerciseData.date}`;
+  
+  // Convert the date to MM/DD/YYYY format
+  const [year, month, day] = exerciseData.date.split('-');
+  const formattedDate = `${month}/${day}/${year}`;
+  
+  dateElement.textContent = `Date: ${formattedDate}`;
 
   let deleteButton = document.createElement('button');
   deleteButton.classList.add('delete-btn');
