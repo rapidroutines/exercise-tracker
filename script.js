@@ -8,7 +8,6 @@ let userId = null;
 
 
 window.onload = function() {
-  // Get the current date in US Eastern Time
   const estOptions = { 
     timeZone: 'America/New_York',
     year: 'numeric',
@@ -16,32 +15,26 @@ window.onload = function() {
     day: '2-digit'
   };
   
-  // Format the date to YYYY-MM-DD for the input field
   const estDate = new Date().toLocaleDateString('en-US', estOptions);
   const [month, day, year] = estDate.split('/');
   const formattedDate = `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
   
   document.getElementById('date').value = formattedDate;
   
-  // Check for authentication - send message to parent
   window.parent.postMessage({ type: "checkAuth" }, "*");
   
-  // Listen for messages from parent
   window.addEventListener("message", (event) => {
     if (event.data.type === "authStatus") {
       isAuthenticated = event.data.isAuthenticated;
       userId = event.data.userId || null;
       
       if (isAuthenticated) {
-        // Request saved exercises from the parent
         window.parent.postMessage({ type: "getTrackerExercises" }, "*");
       } else {
-        // Just clear any existing data, don't notify
         exercisesData = [];
         displayAllExercises();
       }
     } else if (event.data.type === "trackerExercisesData") {
-      // We received exercises from parent (authenticated)
       exercisesData = event.data.exercises || [];
       displayAllExercises();
     }
@@ -107,18 +100,14 @@ function addExercise() {
   };
   
   if (isAuthenticated) {
-    // Add to the local array for display
     exercisesData.push(newExercise);
     
-    // Save to parent (authenticated)
     window.parent.postMessage({ 
       type: "saveTrackerExercise", 
       exercise: newExercise 
     }, "*");
   } else {
-    // Still add to UI temporarily but don't save anywhere
     exercisesData.push(newExercise);
-    // Notify parent about authentication status ONLY when adding an exercise
     window.parent.postMessage({ 
       type: "exerciseNotAuthenticated" 
     }, "*");
@@ -126,16 +115,13 @@ function addExercise() {
   
   displayExercise(newExercise);
   
-  // Clear all form fields
   document.getElementById('sets').value = '';
   document.getElementById('reps').value = '';
   document.getElementById('time').value = '';
   document.getElementById('weight').value = '';
   
-  // Reset select to default value  
   document.getElementById('exercise-select').selectedIndex = 0;
   
-  // Reset the date to today's date
   const estOptions = { 
     timeZone: 'America/New_York',
     year: 'numeric',
@@ -148,7 +134,6 @@ function addExercise() {
   const formattedDate = `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
   document.getElementById('date').value = formattedDate;
   
-  // Reset interface based on first exercise in list
   toggleInputFields();
 }
 
@@ -163,11 +148,9 @@ function loadExercisesFromSessionStorage() {
 }
 
 function displayAllExercises() {
-  // Clear current display
   const exerciseList = document.getElementById('exercise-list');
   exerciseList.innerHTML = '';
   
-  // Add all exercises to display
   exercisesData.forEach(displayExercise);
 }
 
@@ -204,7 +187,7 @@ function displayExercise(exerciseData) {
   deleteButton.textContent = 'Delete';
   deleteButton.onclick = function() {
     deleteExercise(exerciseData);
-    exerciseItem.remove();  // Remove the exercise card from the DOM
+    exerciseItem.remove();  
   };
 
   exerciseItem.appendChild(titleElement);
@@ -217,11 +200,9 @@ function displayExercise(exerciseData) {
 }
 
 function deleteExercise(exerciseData) {
-  // Remove from UI array
   exercisesData = exercisesData.filter(item => item.id !== exerciseData.id);
   
   if (isAuthenticated) {
-    // Send delete request to parent
     window.parent.postMessage({
       type: "removeTrackerExercise",
       exerciseId: exerciseData.id
